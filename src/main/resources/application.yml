@@ -1,0 +1,82 @@
+server:
+  port: 8086
+  servlet:
+    encoding:
+      charset: UTF-8
+      force: true
+      enabled: true
+
+jwt:
+  header: Authorization
+  #HS512 알고리즘을 사용할 것이기 때문에 512bit, 즉 64byte 이상의 secret key를 사용해야 한다.
+  #echo 'subject-project-jwt-secret-hi-i-am-wonseok-hs512-algorithm-base64-encoding-abcdefg-hijklmn-opqr'|base64
+  #
+  secret: c3ViamVjdC1wcm9qZWN0LWp3dC1zZWNyZXQtaGktaS1hbS13b25zZW9rLWhzNTEyLWFsZ29yaXRobS1iYXNlNjQtZW5jb2RpbmctYWJjZGVmZy1oaWprbG1uLW9wcXI=
+  token-validity-in-seconds: 3600
+  authorities-key: auth
+
+spring:
+  main:
+    allow-bean-definition-overriding: true
+  profiles:
+    active: dev
+
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+
+  datasource:
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:~/taxdb
+    username: sa
+
+
+  sql:
+    init:
+      mode: always
+      schema-locations:
+        - classpath:schema-h2.sql
+      data-locations:
+        - classpath:data-h2.sql
+
+  # jpa 설정
+  jpa:
+    defer-datasource-initialization: true
+    hibernate: # hibernate 사용 설정
+      ddl-auto: create-drop # create,create-drop,update,none
+      #naming:
+        #physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+    properties:
+      hibernate:
+        format_sql: true
+    database-platform: org.hibernate.dialect.H2Dialect
+
+
+# Log 설정
+logging:
+  level:
+    root: INFO # TRACE, DEBUG, INFO, WARN, ERROR
+    org:
+      hibernate:
+        SQL: INFO
+        type:
+          descriptor:
+            sql:
+              BasicBinder: INFO
+
+springdoc:
+  swagger-ui:
+    path: /v1/api-docs/detail
+    groups-order: DESC
+    operationsSorter: method
+    disable-swagger-default-url: true
+    display-request-duration: true
+    default-models-expand-depth: -1
+  api-docs:
+    path: /v1/api-docs
+  show-actuator: true
+  default-consumes-media-type: application/json
+  default-produces-media-type: application/json
+  paths-to-match:
+    - /ws/**
