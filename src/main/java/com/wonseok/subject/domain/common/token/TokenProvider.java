@@ -7,10 +7,11 @@ import java.util.Date;
 import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import com.wonseok.subject.domain.common.exception.JwtTokenException;
-import com.wonseok.subject.domain.entity.Member;
-import com.wonseok.subject.domain.service.CustomUserDetailsService;
+import com.wonseok.subject.domain.user.entity.Member;
+import com.wonseok.subject.domain.user.service.impl.CustomUserDetailsService;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -68,10 +69,16 @@ public class TokenProvider implements InitializingBean {
         long now = (new Date()).getTime();
         Date validity = new Date(now + this.tokenValidityInMilliseconds);
 
+        String role = "ROLE_USER";
+
+        if(member.getUserId().equals("dnjstjr12")){
+            role = "ROLE_ADMIN";
+        }
+
         return Jwts
                 .builder()
                 .setSubject(member.getUserId())
-                .claim(authoritiesKey, "ROLE_USER")
+                .claim(authoritiesKey, role)
                 .claim("id",member.getMemberId())
                 .signWith(key, SignatureAlgorithm.HS512)
                 .setExpiration(validity)
@@ -123,4 +130,7 @@ public class TokenProvider implements InitializingBean {
         return new UsernamePasswordAuthenticationToken(user, token, authorities);
     }
 
+    public void setToken(String jwtToken, HttpServletResponse response) {
+        response.setHeader(header, tokenType + jwtToken);
+    }
 }

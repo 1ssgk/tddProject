@@ -1,0 +1,17 @@
+version: "3"
+
+services:
+  subject:
+    container_name: subject
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - "58086:8086"
+    networks:
+      - ws
+
+networks:
+  ws:
+    external: true
