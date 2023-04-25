@@ -14,8 +14,7 @@ import lombok.ToString;
 import java.time.LocalDateTime;
 
 @ToString
-@Getter
-@Setter
+@Getter @Setter
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Builder(access = AccessLevel.PUBLIC)

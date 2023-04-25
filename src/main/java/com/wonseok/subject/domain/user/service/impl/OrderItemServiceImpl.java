@@ -18,7 +18,6 @@ import javax.transaction.Transactional;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_USER')")
 public class OrderItemServiceImpl implements OrderItemService {
 
     private final OrderItemRepository orderItemRepository;

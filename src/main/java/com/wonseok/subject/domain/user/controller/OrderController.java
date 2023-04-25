@@ -28,7 +28,6 @@ public class OrderController {
     public ResponseEntity createOrder(@RequestBody List<OrderDto> requestOrder, Principal principal) {
         String userId = principal.getName();
         orderService.order(userId, requestOrder);
-
         return SuccessResponse.ok();
     }
 

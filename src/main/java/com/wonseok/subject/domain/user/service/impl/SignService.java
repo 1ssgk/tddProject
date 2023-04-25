@@ -34,7 +34,6 @@ public class SignService {
 
     @Transactional
     public ResponseEntity<SuccessResponse> signup(SignupDto signupDto) {
-        System.out.println("되는감2");
         try {
             if (memberRepository.existsByUserId(signupDto.getUserId())) {
                 throw new ConflictException("사용할 수 없는 아이디 입니다.");

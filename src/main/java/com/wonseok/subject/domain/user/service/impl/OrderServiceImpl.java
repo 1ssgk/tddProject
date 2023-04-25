@@ -63,8 +63,7 @@ public class OrderServiceImpl implements OrderService {
     @Transactional
     @Override
     public void cancel(String userId, Long orderId) {
-        Order findOrder = orderRepository.findById(orderId)
-                .orElseThrow(NotFoundException::new);
+        Order findOrder = findOrder(orderId);
 
         System.out.println("요청한 유저의 아이디 ={}" + userId);
         System.out.println("주문한 유저의 아이디 ={}" + findOrder.getMember().getUserId());
@@ -79,8 +78,7 @@ public class OrderServiceImpl implements OrderService {
     @Transactional
     @Override
     public void delete(String userId, Long orderId) {
-        Order findOrder = orderRepository.findById(orderId)
-                .orElseThrow(NotFoundException::new);
+        Order findOrder = findOrder(orderId);
 
         System.out.println("요청한 유저의 아이디 ={}" + userId);
         System.out.println("주문한 유저의 아이디 ={}" + findOrder.getMember().getUserId());
@@ -104,5 +102,13 @@ public class OrderServiceImpl implements OrderService {
             return true;
         }
         return false;
+    }
+
+    /**
+     * 주문 조회
+     */
+    private Order findOrder(Long orderId) {
+        return orderRepository.findById(orderId)
+                .orElseThrow(NotFoundException::new);
     }
 }
