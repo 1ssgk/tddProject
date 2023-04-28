@@ -15,7 +15,7 @@ public class SuccessResponse<T> {
     private String status;
     private T data;
 
-    public static <T> ResponseEntity resultData(T data) {
+    public static <T> ResponseEntity result(HttpStatus code, T data) {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(
@@ -26,9 +26,9 @@ public class SuccessResponse<T> {
                 );
     }
 
-    public static <T> ResponseEntity ok() {
+    public static <T> ResponseEntity result(HttpStatus code) {
         return ResponseEntity
-                .status(HttpStatus.OK)
+                .status(code)
                 .body(
                         SuccessResponse.builder()
                                 .status("success")

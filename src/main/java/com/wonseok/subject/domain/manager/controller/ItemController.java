@@ -5,6 +5,7 @@ import com.wonseok.subject.domain.manager.dto.item.ItemDto;
 import com.wonseok.subject.domain.manager.service.impl.ItemServiceImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -29,19 +30,18 @@ public class ItemController {
     @PostMapping("/ws/item")
     public ResponseEntity save(@RequestBody ItemDto itemDto) {
         itemService.create(itemDto);
-        return SuccessResponse.ok();
+        return SuccessResponse.result(HttpStatus.CREATED);
     }
 
     @DeleteMapping("/ws/item/{itemId}/delete")
     public ResponseEntity delete(@PathVariable Long itemId) {
         itemService.delete(itemId);
-        return SuccessResponse.ok();
+        return SuccessResponse.result(HttpStatus.OK);
     }
 
     @PutMapping("/ws/item/{itemId}/edit")
     public ResponseEntity edit(@PathVariable Long itemId, ItemDto itemDto) {
-
         itemService.update(itemId, itemDto);
-        return SuccessResponse.ok();
+        return SuccessResponse.result(HttpStatus.OK);
     }
 }

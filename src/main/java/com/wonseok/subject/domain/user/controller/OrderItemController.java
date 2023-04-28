@@ -1,12 +1,10 @@
 package com.wonseok.subject.domain.user.controller;
 
 import com.wonseok.subject.domain.common.dto.SuccessResponse;
-import com.wonseok.subject.domain.user.dto.order.OrderItemDto;
-import com.wonseok.subject.domain.user.entity.Member;
-import com.wonseok.subject.domain.user.entity.TestTa;
 import com.wonseok.subject.domain.user.service.impl.OrderItemServiceImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -28,6 +26,6 @@ public class OrderItemController {
         String userId = principal.getName();
         orderItemService.edit(userId, orderItemId);
 
-        return SuccessResponse.ok();
+        return SuccessResponse.result(HttpStatus.OK);
     }
 }

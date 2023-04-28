@@ -10,6 +10,7 @@ import com.wonseok.subject.domain.user.repository.MemberRepository;
 import com.wonseok.subject.domain.user.repository.SignAbleUserRepository;
 import com.wonseok.subject.domain.user.entity.Member;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -64,7 +65,7 @@ public class SignService {
             throw new NoSuchAlgorithmException("Internal Server Error");
         }
 
-        return SuccessResponse.ok();
+        return SuccessResponse.result(HttpStatus.CREATED);
     }
 
     public ResponseEntity<SuccessResponse> login(SigninDto signinDto, HttpServletResponse response) {
@@ -93,6 +94,6 @@ public class SignService {
             throw new NoSuchAlgorithmException("Internal Server Error");
         }
 
-        return SuccessResponse.ok();
+        return SuccessResponse.result(HttpStatus.ACCEPTED);
     }
 }

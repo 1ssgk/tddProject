@@ -11,6 +11,7 @@ public class ErrorResponse<T> {
 
     @Schema(defaultValue = "false")
     private String status;
+
     private T data;
     private T errors;
 
