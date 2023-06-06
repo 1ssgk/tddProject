@@ -11,28 +11,28 @@ import org.springframework.http.ResponseEntity;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class SuccessResponse<T> {
+public class SuccessResponse {
     private String status;
-    private T data;
+    private Object data;
 
-    public static <T> ResponseEntity result(HttpStatus code, T data) {
+    public static ResponseEntity<SuccessResponse> result(Object data) {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(
                         SuccessResponse.builder()
-                                .status("success")
-                                .data(data)
-                                .build()
+                        .status("success")
+                        .data(data)
+                        .build()
                 );
     }
 
-    public static <T> ResponseEntity result(HttpStatus code) {
+    public static ResponseEntity<SuccessResponse> result(HttpStatus code) {
         return ResponseEntity
                 .status(code)
                 .body(
                         SuccessResponse.builder()
-                                .status("success")
-                                .build()
+                        .status("success")
+                        .build()
                 );
     }
 }

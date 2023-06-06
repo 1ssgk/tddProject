@@ -2,7 +2,7 @@ package com.wonseok.subject.domain.manager.controller;
 
 import com.wonseok.subject.domain.common.dto.SuccessResponse;
 import com.wonseok.subject.domain.manager.dto.item.ItemDto;
-import com.wonseok.subject.domain.manager.service.impl.ItemServiceImpl;
+import com.wonseok.subject.domain.manager.service.ItemService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -25,22 +25,22 @@ import org.springframework.web.bind.annotation.RestController;
 @PreAuthorize("hasRole('ROLE_ADMIN')")
 @RequiredArgsConstructor
 public class ItemController {
-    private final ItemServiceImpl itemService;
+    private final ItemService itemService;
 
     @PostMapping("/ws/item")
-    public ResponseEntity save(@RequestBody ItemDto itemDto) {
+    public ResponseEntity<SuccessResponse> save(@RequestBody ItemDto itemDto) {
         itemService.create(itemDto);
         return SuccessResponse.result(HttpStatus.CREATED);
     }
 
     @DeleteMapping("/ws/item/{itemId}/delete")
-    public ResponseEntity delete(@PathVariable Long itemId) {
+    public ResponseEntity<SuccessResponse> delete(@PathVariable Long itemId) {
         itemService.delete(itemId);
         return SuccessResponse.result(HttpStatus.OK);
     }
 
     @PutMapping("/ws/item/{itemId}/edit")
-    public ResponseEntity edit(@PathVariable Long itemId, ItemDto itemDto) {
+    public ResponseEntity<SuccessResponse> edit(@PathVariable Long itemId, ItemDto itemDto) {
         itemService.update(itemId, itemDto);
         return SuccessResponse.result(HttpStatus.OK);
     }

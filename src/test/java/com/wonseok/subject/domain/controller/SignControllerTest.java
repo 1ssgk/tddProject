@@ -59,7 +59,7 @@ public class SignControllerTest {
             params.put("userNm", "홍길동");
             params.put("regNo", "860824-1655068");
 
-            ResponseEntity<SuccessResponse> result = SuccessResponse.ok();
+            ResponseEntity<SuccessResponse> result = SuccessResponse.result(HttpStatus.OK);
 
             //** 회원가입 시도 -> 결과값 반환(성공)
             given(signService.signup(any()))
@@ -126,7 +126,7 @@ public class SignControllerTest {
 
             //** 로그인 시도 -> 결과 값 반환(성공)
             given(signService.login(any(),any()))
-                    .willReturn(SuccessResponse.ok());
+                    .willReturn(SuccessResponse.result(HttpStatus.OK));
 
             //when
             ResultActions resultActions = mockMvc.perform(

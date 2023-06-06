@@ -13,6 +13,8 @@ import org.springframework.security.web.SecurityFilterChain;
 
 import com.wonseok.subject.domain.common.handler.JwtAccessDeniedHandler;
 import com.wonseok.subject.domain.common.handler.JwtAuthenticationEntryPoint;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.filter.CorsFilter;
 
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
@@ -21,11 +23,14 @@ public class SecurityConfig {
     private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
     private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
 
+    private final CorsFilter corsFilter;
+
     public SecurityConfig(TokenProvider tokenProvider, JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint,
-                          JwtAccessDeniedHandler jwtAccessDeniedHandler) {
+                          JwtAccessDeniedHandler jwtAccessDeniedHandler, CorsFilter corsFilter) {
         this.tokenProvider = tokenProvider;
         this.jwtAccessDeniedHandler = jwtAccessDeniedHandler;
         this.jwtAuthenticationEntryPoint = jwtAuthenticationEntryPoint;
+        this.corsFilter = corsFilter;
     }
 
     @Bean
@@ -44,6 +49,8 @@ public class SecurityConfig {
         httpSecurity
                 .csrf().disable()
 
+                .addFilterBefore(corsFilter, UsernamePasswordAuthenticationFilter.class)
+
                 .exceptionHandling()
                 .authenticationEntryPoint(jwtAuthenticationEntryPoint)
                 .accessDeniedHandler(jwtAccessDeniedHandler)
@@ -61,8 +68,11 @@ public class SecurityConfig {
                 .authorizeRequests()
                 .antMatchers("/ws/signup").permitAll()
                 .antMatchers("/ws/login").permitAll()
+                //.antMatchers("/ws/hello").permitAll()
                 .antMatchers("/ws/me").authenticated()
-                .anyRequest().authenticated()
+
+
+                //.anyRequest().authenticated()
 
                 .and()
                 .apply(new JwtSecurityConfig(tokenProvider));

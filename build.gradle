@@ -53,6 +53,8 @@ dependencies {
     testImplementation "com.querydsl:querydsl-apt:5.0.0"
     testImplementation "com.querydsl:querydsl-core:5.0.0"
 
+    testImplementation("org.junit.jupiter:junit-jupiter")
+
     //restAssured
     testImplementation 'io.rest-assured:rest-assured'
 
